@@ -1,20 +1,13 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  View,
-  Image,
-  TouchableOpacity,
-  Animated,
-  Easing,
-} from 'react-native';
-import {Actions, ActionConst} from 'react-native-router-flux';
-
+import { connect } from 'react-redux';
+import { StyleSheet, View, Image, TouchableOpacity, Animated } from 'react-native';
+import {Actions} from 'react-native-router-flux';
 import arrowImg from '../images/left-arrow.png';
+import { deleteSession } from '../redux/Session';
 
 const SIZE = 40;
 
-export default class SecondScreen extends Component {
+class SecondScreen extends Component {
   constructor() {
     super();
 
@@ -26,20 +19,9 @@ export default class SecondScreen extends Component {
     this.growAnimated = new Animated.Value(0);
   }
 
-  _onPress() {
-    if (this.state.isLoading) return;
-
-    this.setState({isLoading: true});
-
-    Animated.timing(this.growAnimated, {
-      toValue: 1,
-      duration: 300,
-      easing: Easing.linear,
-    }).start();
-
-    setTimeout(() => {
-      Actions.pop();
-    }, 500);
+  async _onPress() {
+    await this.props.deleteSession();
+    Actions.pop();
   }
 
   render() {
@@ -92,3 +74,15 @@ const styles = StyleSheet.create({
     height: 24,
   },
 });
+
+const mapStateToProps = (state) => {
+  return {}
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteSession: async () => dispatch(await deleteSession())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SecondScreen);
