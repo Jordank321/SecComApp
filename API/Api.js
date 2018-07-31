@@ -12,3 +12,13 @@ export async function login(username,password){
     }
     else return null;
 }
+
+export async function getConversastions(sessionCookie){
+    if (sessionCookie.startsWith('set-cookie=')) sessionCookie = sessionCookie.substring(11);
+    const response = await api.get('/Conversation/All', {}, {headers: {'Cookie': sessionCookie}});
+    if (response.ok)
+    {        
+        return response.data;
+    };
+    return null
+};

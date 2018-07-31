@@ -6,7 +6,7 @@ import Wallpaper from './Wallpaper';
 import SignupSection from './SignupSection';
 
 import { ScrollView } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { Actions, ActionConst } from 'react-native-router-flux';
 import { loadSession } from '../redux/Session';
 
 class LoginScreen extends Component {
@@ -14,19 +14,18 @@ class LoginScreen extends Component {
   state = {}
 
   componentDidMount = async () => {    
-    await this.props.loadSession();
+    this.props.loadSession();
   }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
-    alert(`Has session: ${nextProps.hasSession}`)
-    if (nextProps.hasSession) Actions.secondScreen();
+    if (nextProps.hasSession) Actions.messagesScreen({type: ActionConst.REPLACE});
     return null;
   }
 
   render() {
     return (
       <Wallpaper>
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps='handled'>
           <Logo />
           <Form />
           <SignupSection />
@@ -38,13 +37,13 @@ class LoginScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    hasSession: (state.Session.current !== null)
+    hasSession: (state.Session.current || null) !== null
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadSession: async () => dispatch(await loadSession())
+    loadSession: () => dispatch(loadSession())
   };
 };
 

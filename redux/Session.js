@@ -28,7 +28,11 @@ function removeSession() {
 // side effects, only as applicable
 // e.g. thunks, epics, etc
 export function loadSession() {
-    return dispatch => AsyncStorage.getItem('SESSION').then(session => dispatch(updateSession(session)))
+    return dispatch => AsyncStorage.getItem('SESSION').then(session => {
+        if (session != null) {
+            dispatch(updateSession(session))
+        }
+    })
 }
 
 export function newSession(session) {
@@ -39,5 +43,5 @@ export function newSession(session) {
 }
 
 export function deleteSession() {
-    return dispatch => AsyncStorage.removeItem('SESSION').then(() => dispatch(removeSession()))
+    return dispatch => AsyncStorage.removeItem('SESSION', (err) => {if(err !== null) alert(err)}).then(() => dispatch(removeSession()))
 }

@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { Router, Stack, Scene } from './node_modules/react-native-router-flux';
 import LoginScreen from './components/LoginScreen';
-import SecondScreen from './components/SecondScreen';
+import LoggedInMain from './components/LoggedInMain';
 import { Provider } from 'react-redux';
 import configureStore from './redux/Store';
 
@@ -22,7 +22,7 @@ const store = configureStore();
 const App = () => (
   <Provider store={store}>
   <Router>
-    <View style={styles.container}>
+    <View style={styles.container} hideNavBar={true}>
       <Stack key="root">
         <Scene key="loginScreen"
           component={LoginScreen}
@@ -30,11 +30,18 @@ const App = () => (
           hideNavBar={true}
           initial={true}
         />
-        <Scene key="secondScreen"
-          component={SecondScreen}
+        <Scene key="messagesScreen"
+          component={LoggedInMain}
           animation='fade'
           hideNavBar={true}
+          panHandlers={null}
         />
+        {/* <Scene key="conversation"
+          component={ConversationScreen}
+          animation='fade'
+          hideNavBar={true}
+          panHandlers={null}
+        /> */}
       </Stack>
     </ View>
   </Router>
