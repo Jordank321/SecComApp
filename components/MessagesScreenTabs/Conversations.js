@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, ScrollView, Text } from 'react-native';
+import { CardList } from '../CardList/CardList';
+
+import logoImg from '../../images/owl.png';
 
 const SIZE = 40;
 
@@ -12,14 +15,40 @@ class SettingsTab extends Component {
         };
     }
 
-    //   componentDidMount = async () => {
-    //     resetNavigation(this.props.navigation, 'messagesScreen');
-    //   }
+    cards = [
+        {
+            id: "0",
+            title: "Starry Night",
+            picture: logoImg,
+            content: <Text>Starry Night</Text>
+        },
+        {
+            id: "1",
+            title: "Wheat Field",
+            picture: logoImg,
+            content: <Text>Wheat Field with Cypresses</Text>
+        },
+        {
+            id: "2",
+            title: "Bedroom in Arles",
+            picture: logoImg,
+            content: <Text>Bedroom in Arles</Text>
+        }
+    ];
 
     render() {
+        let cards = this.props.conversations 
+            ? this.props.conversations.map(convo => {return {
+                id: convo.id.toString(),
+                title: `${convo.firstUser} and ${convo.secondUser}`,
+                picture: logoImg,
+                content: <Text>MESSAGES HERE</Text>
+            }})
+            : []
+
         return (
             <ScrollView style={styles.container}>
-                <Text style={{textAlign:'center'}}>Your conversations will go here</ Text>
+                <CardList cards={cards}/>
             </ScrollView>
         );
     }
@@ -53,8 +82,10 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-    return {}
-};
+    return {
+      conversations: state.Conversations.conversations
+    }
+  };
 
 const mapDispatchToProps = (dispatch) => {
     return {

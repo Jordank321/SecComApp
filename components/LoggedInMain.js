@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Dimensions, View } from 'react-native';
-import { resetNavigation } from './navigation/Helpers'
-import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+import { StyleSheet, Dimensions } from 'react-native';
+import { TabView, SceneMap } from 'react-native-tab-view';
 
 import SettingsTab from './MessagesScreenTabs/Settings';
 import ConversationsTab from './MessagesScreenTabs/Conversations'
@@ -25,11 +24,6 @@ class MessagesScreen extends Component {
 
   componentDidMount = async () => {    
     this.props.getConversations(this.props.sessionCookie);
-  }
-
-  static getDerivedStateFromProps = (nextProps, prevState) => {
-    alert(JSON.stringify(nextProps.conversations));
-    return null
   }
 
   render() {
